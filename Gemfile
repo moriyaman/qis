@@ -44,6 +44,7 @@ gem 'omniauth-facebook'
 gem 'paperclip'
 gem 'twitter-bootstrap3-rails'
 gem 'slim-rails'
+
 gem 'rails-assets-vue'
 
 group :development,:test do
