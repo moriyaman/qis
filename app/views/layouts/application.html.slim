@@ -1,0 +1,48 @@
+doctype html
+html[lang="en"]
+  head
+    meta[charset="utf-8"]
+    meta[http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1"]
+    meta[name="viewport" content="width=device-width, initial-scale=1.0"]
+    title
+      = content_for?(:title) ? yield(:title) : "Qis"
+    = csrf_meta_tags
+    = stylesheet_link_tag "application", :media => "all"
+    = favicon_link_tag 'apple-touch-icon-144x144-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '144x144'
+    = favicon_link_tag 'apple-touch-icon-114x114-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '114x114'
+    = favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72'
+    = favicon_link_tag 'apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png'
+    = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
+    = javascript_include_tag "application"
+  body
+    .navbar.navbar-static-top
+      .container
+        button.navbar-toggle[type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse"]
+          span.icon-bar
+          span.icon-bar
+          span.icon-bar
+        = link_to 'Qis', root_path, { class: 'navbar-brand' }
+        .nav-collapse.navbar-responsive-collapse
+          - if user_signed_in?
+            ul.nav.navbar-nav
+              li
+                = link_to "問題を作る", new_question_path
+              li
+                = link_to "テストを受ける", tests_path
+          ul.nav.navbar-nav
+            - unless user_signed_in?
+              li
+                = link_to "Sign in with Facebook", user_omniauth_authorize_path(:facebook)
+            - else
+              li
+                = image_tag current_user.image.url(:thumb)
+              li
+                = link_to("Sign out", destroy_user_session_path, method: :delete)
+    .container
+      .row
+        .col-lg-9
+          = bootstrap_flash
+          = yield
+      footer
+        p
+          | © Konya Company 2014

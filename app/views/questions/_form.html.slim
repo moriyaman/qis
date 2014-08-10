@@ -1,0 +1,24 @@
+= form_for(@question) do |f|
+  - if @question.errors.any?
+    #error_explanation
+      h2
+        = pluralize(@question.errors.count, "error")
+        |  prohibited this question from being saved:
+      ul
+        - @question.errors.full_messages.each do |message|
+          li
+            = message
+  .actions
+    |  カテゴリー：
+    = f.text_field :category_id
+    |  問題：
+    = f.text_area :question
+    |  正解：
+    = f.text_area :answer
+    |  誤回答1：
+    = f.text_area :option1
+    |  誤回答2：
+    = f.text_area :option2
+    |  誤回答3：
+    = f.text_area :option3
+    = f.submit
