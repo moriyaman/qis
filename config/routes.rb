@@ -4,8 +4,8 @@ Rails.application.routes.draw do
 
   resources :categories
   resources :questions
-  
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+
+  devise_for :users, :controllers => { omniauth_callbacks: "users/omniauth_callbacks" }
 
   get 'tests' => 'tests#index'
   get 'tests/:category_id' => 'tests#start', as: 'tests_start'

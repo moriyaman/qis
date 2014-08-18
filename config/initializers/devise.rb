@@ -4,7 +4,7 @@ Devise.setup do |config|
   # The secret key used by Devise. Devise uses this key to generate
   # random tokens. Changing this key will render invalid all existing
   # confirmation, reset password and unlock tokens in the database.
-  # config.secret_key = '20b6c0120d5f6209b18558d5e7dd5477a2b7ca567ee8964501d15551f2b39e36c105c4126e5a331a73b4f030985c330ec74e20fb5c7bd886e2d487cb14eef859'
+  # config.secret_key = '152bed65070c759ae696a31bd7355289d50cd0f830e0827e058cdf4fe335d2937a37fba5deb508ddd81a476bf2c7a305e094419fd1c5c0678be1f1168194c7a7'
 
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
@@ -20,9 +20,14 @@ Devise.setup do |config|
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
   require 'devise/orm/active_record'
-  require "omniauth-facebook"
+  require 'omniauth-facebook'
+  require 'omniauth-twitter'
+  require 'omniauth-github'
 
-  config.omniauth :facebook, "1536261489930565", "cf782df5939178b27ae4ce92a6813cf1", :strategy_class => OmniAuth::Strategies::Facebook
+  config.omniauth :facebook, "1536261489930565", "cf782df5939178b27ae4ce92a6813cf1"
+  config.omniauth :twitter, "xKcF9TYYyV6ip23bYQfBAHbad", "5Qn2f7nq0OuutGoZi4axMeKVKZXwglXriVRGCqkX4D5DLZaPao"
+  config.omniauth :github, "2db22e9a8f32726a43c7", "99882f596fc004498456bd51f09b22e5a3304e4c"
+
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
   # just :email. You can configure it to use [:username, :subdomain], so for
@@ -99,7 +104,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 10
 
   # Setup a pepper to generate the encrypted password.
-  # config.pepper = 'da3d421f3235a64369ace8f89c6552e24edabcf5fc67d2f4eae52017c6c68c3b60bc6bc12f8ac58ca83f10a5aa30304e25f07cb0fcc336a1da471391a53ef0c5'
+  # config.pepper = 'e8bbecc570dde2b69c6adf1233c5ebaf4d22eca1bbf076764fdd694d6cb8872fd59377fa794e6e6d712b1fc8c16c579b790663753179ee2990f111a543fd7cf3'
 
   # ==> Configuration for :confirmable
   # A period that the user is allowed to access the website even without

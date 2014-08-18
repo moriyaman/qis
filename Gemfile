@@ -40,12 +40,16 @@ gem 'therubyracer'
 
 gem 'puma'
 gem 'devise'
-gem 'omniauth-facebook'
 gem 'paperclip'
 gem 'twitter-bootstrap3-rails'
 gem 'slim-rails'
 
 gem 'rails-assets-vue'
+
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-github'
+gem 'omniauth-twitter'
 
 group :development,:test do
   gem 'better_errors'
