@@ -1,0 +1,7 @@
+.js-question data-id="#{ @question.id }"
+  =@question.text
+
+.js-black_cover
+  -@question_options.each do |question_option|
+    .js-question_option data-id="#{ question_option.id }" data-flg="#{ question_option.is_correct? ? 'true' : 'false' }"
+      =question_option.text

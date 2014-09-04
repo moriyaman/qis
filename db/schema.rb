@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140810043110) do
+ActiveRecord::Schema.define(version: 20140902011838) do
+
+  create_table "answers", force: true do |t|
+    t.integer  "question_id"
+    t.integer  "question_option_id"
+    t.integer  "time"
+    t.boolean  "correct_flg",        default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "categories", force: true do |t|
     t.string   "name"
@@ -29,9 +38,25 @@ ActiveRecord::Schema.define(version: 20140810043110) do
     t.datetime "updated_at"
   end
 
+  create_table "question_options", force: true do |t|
+    t.integer  "question_id"
+    t.text     "text"
+    t.boolean  "correct_flg", default: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "question_packs", force: true do |t|
     t.integer  "question_id"
     t.integer  "pack_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "question_ratings", force: true do |t|
+    t.integer  "question_id"
+    t.float    "rating",      limit: 24
+    t.float    "rd",          limit: 24
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -44,12 +69,8 @@ ActiveRecord::Schema.define(version: 20140810043110) do
 
   create_table "questions", force: true do |t|
     t.integer  "category_id"
-    t.text     "question"
+    t.text     "text"
     t.integer  "question_type_id"
-    t.text     "answer"
-    t.text     "option1"
-    t.text     "option2"
-    t.text     "option3"
     t.integer  "user_id"
     t.integer  "reference_id"
     t.datetime "created_at"
