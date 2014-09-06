@@ -1,0 +1,5 @@
+ul
+  -@categories.each do |category|
+    li.js-category_auto_comp data-id="#{ category.id }" 
+      =category.name
+

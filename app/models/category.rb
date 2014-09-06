@@ -9,4 +9,9 @@ class Category < ActiveRecord::Base
 
   has_many :questions
 
+  validates :name, presence: true
+
+  scope :name_like, -> text { where('name like ?', "%#{text}%") }
+
 end
+

@@ -9,16 +9,17 @@
           li
             = message
   .actions
-    |  カテゴリー：
-    = f.text_field :category_id
+    |  カテゴリー名：
+    = text_field_tag :category_name
+    .category_name_box
+    = f.hidden_field :category_id
     |  問題：
-    = f.text_area :question
-    |  正解：
-    = f.text_area :answer
-    |  誤回答1：
-    = f.text_area :option1
-    |  誤回答2：
-    = f.text_area :option2
-    |  誤回答3：
-    = f.text_area :option3
+    = f.text_area :text
+
+    -  @question.question_options.each do |question_option| 
+      = f.fields_for :question_options, question_option do |question_option|
+        |  解答文：
+        = question_option.text_area :text
+        |  正解フラグ：
+        = question_option.check_box :correct_flg
     = f.submit

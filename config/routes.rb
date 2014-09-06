@@ -9,7 +9,11 @@ Rails.application.routes.draw do
 
   get 'tests' => 'tests#index'
   get 'tests/:category_id' => 'tests#start', as: 'tests_start'
+  
+  # apis
   get 'apis/next_question' => 'apis#next_question'
+  post 'apis/finish_test' => 'apis#finish_test'
+  get 'apis/category_auto_comp' => 'apis#category_auto_comp'
 
   namespace :apis do
     resources :answers

@@ -1,7 +1,10 @@
+- @javascripts += ["tests", "question_option" ]
+
 .result_notification
   .js-result_msg
     =""
   =button_tag 'next', { class: "js-next_btn" }
+  =button_tag 'finish', { class: "js-finish_btn" }
 
 #point
   ="{{point}}"

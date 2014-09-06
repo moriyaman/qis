@@ -3,6 +3,20 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
+
+  category_id = $('#js-category_id').val()
+  question_options = QuestionOptionNew()
+
+  # point
+  point_vm = new Vue(
+    el: '#point',
+    data:
+      point: 0,
+    methods:
+      add: (point) ->
+        this.point += point
+  )
+
   # progress_bar
   progress_vm = new Vue(
     el: '#progress_bar',
@@ -23,43 +37,47 @@ $ ->
         this.start()
       finish: ->
         this.width = 0
-        console.log '終了'
+      end: ->
+        this.finish()
+        $('.js-result_msg').text 'test is finished'  
+        resultNotificationBlock()
+        testFinish(category_id, point_vm.point)
   )
 
   progress_vm.start()
 
-  # point
-  point_vm = new Vue(
-    el: '#point',
-    data:
-      point: 0,
-    methods:
-      add: (point) ->
-        this.point += point
-  )
+  $(document).on 'click', '.js-question_option', () ->
+    index = $('.js-question_option').index this
+    question_options[index].choice(progress_vm.width, point_vm)
+    choiceSuccessFunc(question_options, progress_vm) 
+    # できればchoiceのsuccess_funcに下記をいれたい
 
-  category_id = $('#js-category_id').val()
-  
+
+  $('.js-next_btn').click -> 
+    testReload($('.js-question').data('id'), category_id, question_options)
+    question_options = QuestionOptionNew()
+    progress_vm.reset()
+    resultNotificationNone(question_options, progress_vm)
+
+   $('.js-finish_btn').click ->
+     testFinish(category_id, point_vm.point) 
+
+QuestionOptionNew = () ->
   question_options = []
   $('.js-question_option').each ->
     question_option = new QuestionOption($(this).data('id'), $(this).data('flg'), $('.js-question').data('id'))
     question_options.push question_option 
+  return question_options
 
-  $('.js-question_option').on 'click', ->
-    index = $('.js-question_option').index this
-    question_options[index].choice(progress_vm.width, point_vm)
-    
-    # できればchoiceのsuccess_funcに下記をいれたい
-    blackCoverBlock()
-    progress_vm.finish()
-    resultNotificationBlock()
+questionOptionsToDisable = (question_options) ->
+  for question_option in question_options
+    question_option.toDisable()
 
-  $('.js-next_btn').click -> 
-    testReload($('.js-question').data('id'), category_id, question_options)
-    progress_vm.reset()
-
-QuestionOptionNew = (question_options, question_id) ->
-  question_options = []
+choiceSuccessFunc = (question_options, progress_vm) ->
+  #questionOptionsToDisable(question_options)
+  progress_vm.finish()
+  resultNotificationBlock()
+  blackCoverBlock()
 
 blackCoverBlock = -> 
   $('.js-black_cover').addClass 'on'
@@ -71,9 +89,18 @@ resultNotificationBlock = ->
   $('.result_notification').css('display', 'block')
 
 resultNotificationNone = ->
-  $('result_notification').css('display', 'none')
+  $('.result_notification').css('display', 'none')
 
-testReload = (question_id, category_id, @question_options) ->
+testFinish = (category_id, point) ->
+  $.ajax
+    url: "/apis/finish_test"
+    method: "POST"
+    data: { category_id: category_id, point: point }
+    success: (data ,status) ->
+      alert 'test is finished'
+    error: (data ,status) ->
+
+testReload = (question_id, category_id) ->
   $.ajax
     url: "/apis/next_question"
     method: "GET"
@@ -81,5 +108,4 @@ testReload = (question_id, category_id, @question_options) ->
     success: (data ,status) ->
       $('#js-question_box').html(data)
       resultNotificationNone()
-      # QuestionOptionNew(@question_options, $('.js-question').data('id'))
     error: (data ,status) ->
