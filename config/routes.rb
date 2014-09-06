@@ -17,6 +17,10 @@ Rails.application.routes.draw do
   get 'apis/next_question' => 'apis#next_question'
   post 'apis/finish_test' => 'apis#finish_test'
   get 'apis/category_auto_comp' => 'apis#category_auto_comp'
+  
+  # profiles
+  get 'profiles/edit' => 'profiles#edit', as: 'profile_edit'
+  post 'profiles/update' => 'profiles#update'
 
   namespace :apis do
     resources :answers
