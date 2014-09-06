@@ -1,0 +1,4 @@
+- @categories.each do |category|
+  = link_to ranking_show_path(category_id: category.id) do
+    = category.name
+    = image_tag category.image.url(:thumb)

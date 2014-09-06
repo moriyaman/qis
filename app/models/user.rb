@@ -4,7 +4,10 @@ class User < ActiveRecord::Base
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :omniauthable, :omniauth_providers => [:facebook, :github, :twitter]
-  
+ 
+  has_many :questions
+  has_many :test_results
+
   has_attached_file :image,
     styles: { medium: "300x300>", thumb: "100x100>" },
     default_url: "/images/:style/missing.png"
@@ -20,6 +23,10 @@ class User < ActiveRecord::Base
     avatar_url.scheme = 'https'
     avatar_url.to_s
     self.image = open(avatar_url) # assuming the user model has an image
+  end
+
+  def took_tests_categories
+    test_results.map(&:category).uniq
   end
 
   class << self

@@ -9,7 +9,10 @@ Rails.application.routes.draw do
 
   get 'tests' => 'tests#index'
   get 'tests/:category_id' => 'tests#start', as: 'tests_start'
-  
+
+  get 'ranking/index' => 'ranking#index', as: 'ranking_index'
+  get 'ranking/show/:category_id' => 'ranking#show', as: 'ranking_show'
+
   # apis
   get 'apis/next_question' => 'apis#next_question'
   post 'apis/finish_test' => 'apis#finish_test'

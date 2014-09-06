@@ -51,6 +51,8 @@ gem 'omniauth-facebook'
 gem 'omniauth-github'
 gem 'omniauth-twitter'
 
+gem 'redis'
+
 group :development,:test do
   gem 'better_errors'
   gem 'pry'

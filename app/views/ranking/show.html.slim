@@ -1,0 +1,5 @@
+- @ranking.each_with_index do |ranking, index|
+  名前：
+  = User.find(ranking[0]).name
+  ポイント：
+  = ranking[1]

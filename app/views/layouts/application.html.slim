@@ -32,6 +32,8 @@ html[lang="en"]
                 = link_to "問題を作る", new_question_path
               li
                 = link_to "テストを受ける", tests_path
+              li
+                = link_to "ランキングをみる", ranking_index_path
           ul.nav.navbar-nav
             - unless user_signed_in?
               li
