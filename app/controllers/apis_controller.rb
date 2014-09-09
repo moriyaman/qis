@@ -8,12 +8,14 @@ class ApisController < ApplicationController
   end
 
   def finish_test
-    test_result = TestResult.new({ 
-                    user_id: current_user.id, 
-                    category_id: params[:category_id], 
-                    point: params[:point] 
-                  })
-     render json: { result: test_result.save, msg: '' }
+    test_result = TestResult.find_or_initialize_by(user_id: current_user.id, category_id: params[:category_id])
+    test_result.point = params[:point]
+    result = test_result.save
+    if result
+      Redis.new.zrem("ranking-#{test_result.category_id}", test_result.user_id)
+      Redis.new.zadd("ranking-#{test_result.category_id}", test_result.point, test_result.user_id)
+    end
+    render json: { result: test_result.save, msg: '' }
   end
 
   def category_auto_comp

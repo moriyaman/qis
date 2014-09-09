@@ -28,10 +28,13 @@ class QuestionsController < ApplicationController
   # POST /questions
   # POST /questions.json
   def create
-
     @question = Question.new(question_params)
     @question.user_id = current_user.id
-    binding.pry
+    # カテゴリーに無いものを入力すれば作られる仕組み
+    if question_params[:category_id].blank? && params[:category_name].present?
+      category = Category.find_or_create_by({ name: params[:category_name] })
+      @question.category_id = category.id
+    end
     respond_to do |format|
       if @question.save
         format.html { redirect_to @question, notice: 'Question was successfully created.' }
